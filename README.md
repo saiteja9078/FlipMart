@@ -364,3 +364,6 @@ Open `http://localhost:5173` in your browser.
 6. **Single currency:** All prices are displayed in INR (Indian Rupees) to match Flipkart's native experience.
 7. **Stock management:** Stock is decremented when an order is placed. No stock reservation or hold mechanism is implemented.
 8. **Schema migrations:** Alembic is configured for database migrations. During development, `Base.metadata.create_all()` is also used for convenience.
+
+## License
+This project was developed as part of a Scalar AI Labs assignment and is intended for evaluation purposes only.
