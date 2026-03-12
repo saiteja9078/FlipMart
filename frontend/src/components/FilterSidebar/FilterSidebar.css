@@ -1,0 +1,122 @@
+.filter-sidebar {
+  background: var(--fm-bg-white);
+  border-radius: 4px;
+  padding: 0;
+  box-shadow: var(--fm-shadow-sm);
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+}
+
+.filter-sidebar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.filter-sidebar__header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.filter-sidebar__clear {
+  background: none;
+  border: none;
+  color: var(--fm-blue);
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* Section */
+.filter-sidebar__section {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-sidebar__section h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fm-text-primary);
+  margin-bottom: 10px;
+}
+
+/* Select */
+.filter-sidebar__select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+/* Check list */
+.filter-sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-sidebar__list--scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.filter-sidebar__check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: var(--fm-text-primary);
+}
+
+.filter-sidebar__check input { cursor: pointer; }
+
+/* Price */
+.filter-sidebar__price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-sidebar__price-inputs input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.filter-sidebar__price-inputs span {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.filter-sidebar__go {
+  padding: 6px 12px;
+  background: var(--fm-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-sidebar__go:hover { background: var(--fm-blue-dark); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-sidebar {
+    position: static;
+    max-height: none;
+  }
+}

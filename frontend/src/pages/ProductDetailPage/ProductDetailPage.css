@@ -1,0 +1,235 @@
+.pdp {
+  padding: var(--fm-space-lg) var(--fm-space-md);
+  min-height: 60vh;
+}
+
+.pdp__layout {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: var(--fm-space-xl);
+  background: var(--fm-bg-white);
+  border-radius: var(--fm-radius-md);
+  padding: var(--fm-space-lg);
+  box-shadow: var(--fm-shadow-sm);
+}
+
+/* Left */
+.pdp__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fm-space-md);
+}
+
+.pdp__actions {
+  display: flex;
+  gap: var(--fm-space-md);
+}
+
+.pdp__btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--fm-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pdp__btn--cart {
+  background: var(--fm-yellow);
+  color: #fff;
+}
+.pdp__btn--cart:hover:not(:disabled) {
+  background: var(--fm-yellow-dark);
+  box-shadow: var(--fm-shadow-md);
+}
+
+.pdp__btn--buy {
+  background: var(--fm-yellow);
+  color: #fff;
+  background: #fb641b;
+}
+.pdp__btn--buy:hover:not(:disabled) {
+  background: #e85d19;
+  box-shadow: var(--fm-shadow-md);
+}
+
+.pdp__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pdp__btn--wishlist {
+  background: transparent;
+  color: var(--fm-text-secondary);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.pdp__btn--wishlist:hover:not(:disabled) {
+  border-color: #ff4081;
+  color: #ff4081;
+}
+.pdp__btn--wishlisted {
+  border-color: #ff4081;
+  color: #ff4081;
+}
+
+/* Right */
+.pdp__right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fm-space-md);
+}
+
+.pdp__breadcrumb {
+  font-size: 0.8rem;
+  color: var(--fm-text-secondary);
+}
+
+.pdp__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--fm-text-primary);
+  line-height: 1.4;
+}
+
+/* Rating */
+.pdp__rating {
+  display: flex;
+  align-items: center;
+  gap: var(--fm-space-sm);
+}
+
+.pdp__rating-badge {
+  background: var(--fm-green);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.pdp__rating-count {
+  font-size: 0.85rem;
+  color: var(--fm-text-secondary);
+  font-weight: 500;
+}
+
+/* Price */
+.pdp__special-price {
+  font-size: 0.75rem;
+  color: var(--fm-green);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pdp__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--fm-space-sm);
+  flex-wrap: wrap;
+}
+
+.pdp__price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--fm-text-primary);
+}
+
+.pdp__original-price {
+  font-size: 1rem;
+  color: var(--fm-text-secondary);
+  text-decoration: line-through;
+}
+
+.pdp__discount {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fm-green);
+}
+
+/* Stock */
+.pdp__stock { font-size: 0.9rem; font-weight: 500; }
+.pdp__stock--in { color: var(--fm-green); }
+.pdp__stock--out { color: var(--fm-red); }
+
+/* Sections */
+.pdp__section {
+  border-top: 1px solid var(--fm-divider);
+  padding-top: var(--fm-space-md);
+}
+
+.pdp__section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: var(--fm-space-sm);
+  color: var(--fm-text-primary);
+}
+
+.pdp__description {
+  font-size: 0.9rem;
+  color: var(--fm-text-secondary);
+  line-height: 1.6;
+}
+
+/* Specs table */
+.pdp__specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pdp__specs-table tr {
+  border-bottom: 1px solid var(--fm-divider);
+}
+
+.pdp__spec-key {
+  padding: 10px 16px 10px 0;
+  font-size: 0.85rem;
+  color: var(--fm-text-secondary);
+  font-weight: 500;
+  width: 35%;
+  vertical-align: top;
+}
+
+.pdp__spec-val {
+  padding: 10px 0;
+  font-size: 0.85rem;
+  color: var(--fm-text-primary);
+}
+
+/* Loading & error */
+.pdp__loading,
+.pdp__not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: var(--fm-space-md);
+  color: var(--fm-text-secondary);
+}
+
+.pdp__not-found button {
+  padding: 10px 24px;
+  background: var(--fm-blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--fm-radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pdp__layout {
+    grid-template-columns: 1fr;
+  }
+  .pdp__price { font-size: 1.4rem; }
+}
