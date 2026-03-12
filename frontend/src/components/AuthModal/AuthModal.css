@@ -8,11 +8,12 @@
   justify-content: center;
   z-index: 1100;
   animation: overlay-in 0.2s ease;
+  padding: var(--fm-space-md);
 }
 
 .auth-modal {
   display: flex;
-  width: 90%;
+  width: 100%;
   max-width: 740px;
   min-height: 420px;
   background: #fff;
@@ -21,6 +22,8 @@
   box-shadow: 0 20px 60px rgba(0,0,0,0.35);
   animation: modal-in 0.25s ease;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 @keyframes overlay-in { from { opacity:0 } to { opacity:1 } }
@@ -36,6 +39,8 @@
   color: #999;
   cursor: pointer;
   z-index: 10;
+  min-height: auto;
+  min-width: auto;
 }
 
 .auth-modal__close:hover { color: #333; }
@@ -75,6 +80,7 @@
   padding: 32px;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 /* Tabs */
@@ -97,6 +103,8 @@
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
   transition: all 0.2s;
+  min-height: auto;
+  min-width: auto;
 }
 
 .auth-modal__tab--active {
@@ -139,6 +147,8 @@
   padding: 4px;
   border-radius: 50%;
   transition: color 0.15s, background 0.15s;
+  min-height: auto;
+  min-width: auto;
 }
 
 .auth-modal__eye-btn:hover {
@@ -189,11 +199,59 @@
   font-weight: 700;
   cursor: pointer;
   font-size: 0.82rem;
+  min-height: auto;
+  min-width: auto;
 }
 
-/* Responsive */
+/* Responsive: Tablet */
 @media (max-width: 600px) {
-  .auth-modal { flex-direction: column; max-width: 400px; }
-  .auth-modal__left { width: 100%; padding: 20px 24px; }
+  .auth-modal {
+    flex-direction: column;
+    max-width: 420px;
+    min-height: auto;
+    max-height: 90vh;
+  }
+  .auth-modal__left {
+    width: 100%;
+    padding: 20px 24px;
+  }
   .auth-modal__art { display: none; }
+  .auth-modal__right {
+    padding: 20px;
+  }
+}
+
+/* Responsive: Small phones */
+@media (max-width: 400px) {
+  .auth-modal__overlay {
+    padding: var(--fm-space-sm);
+  }
+  .auth-modal {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+  .auth-modal__left {
+    padding: 16px;
+  }
+  .auth-modal__left h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  .auth-modal__left p {
+    font-size: 0.8rem;
+  }
+  .auth-modal__right {
+    padding: 16px;
+  }
+  .auth-modal__tabs {
+    margin-bottom: 16px;
+  }
+  .auth-modal__field input {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+  .auth-modal__submit {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
 }

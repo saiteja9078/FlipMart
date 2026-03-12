@@ -31,6 +31,8 @@
   font-size: 0.75rem;
   cursor: pointer;
   text-transform: uppercase;
+  min-height: auto;
+  min-width: auto;
 }
 
 /* Section */
@@ -85,6 +87,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .filter-sidebar__price-inputs input {
@@ -93,6 +96,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 0.8rem;
+  min-width: 0;
 }
 
 .filter-sidebar__price-inputs span {
@@ -109,6 +113,8 @@
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
+  min-height: auto;
+  min-width: auto;
 }
 
 .filter-sidebar__go:hover { background: var(--fm-blue-dark); }
@@ -118,5 +124,7 @@
   .filter-sidebar {
     position: static;
     max-height: none;
+    border-radius: var(--fm-radius-md);
+    margin-bottom: var(--fm-space-md);
   }
 }

@@ -41,15 +41,38 @@
   color: rgba(255,255,255,0.6);
 }
 
-/* Responsive */
+/* Responsive: Tablet */
 @media (max-width: 768px) {
+  .footer {
+    padding: var(--fm-space-xl) 0 var(--fm-space-md);
+    margin-top: var(--fm-space-xl);
+  }
   .footer__cols {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--fm-space-lg);
   }
 }
 
+/* Responsive: Small phones */
 @media (max-width: 480px) {
+  .footer {
+    padding: var(--fm-space-lg) 0 var(--fm-space-md);
+    margin-top: var(--fm-space-lg);
+  }
   .footer__cols {
     grid-template-columns: 1fr;
+    gap: var(--fm-space-md);
+  }
+  .footer__heading {
+    font-size: 0.75rem;
+    margin-bottom: var(--fm-space-sm);
+  }
+  .footer__col ul li {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+  .footer__bottom {
+    font-size: 0.72rem;
+    margin-top: var(--fm-space-md);
   }
 }

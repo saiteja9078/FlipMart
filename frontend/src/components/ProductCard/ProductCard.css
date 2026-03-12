@@ -7,6 +7,7 @@
   transition: box-shadow 0.25s, transform 0.25s;
   border: 1px solid #f0f0f0;
   cursor: pointer;
+  min-width: 0;
 }
 
 .product-card:hover {
@@ -66,11 +67,20 @@
   opacity: 0;
   transition: opacity 0.2s, transform 0.2s, background 0.2s;
   z-index: 2;
+  min-height: auto;
+  min-width: auto;
 }
 
 .product-card:hover .product-card__wishlist-btn,
 .product-card__wishlist-btn--active {
   opacity: 1;
+}
+
+/* Touch devices: always show the wishlist btn */
+@media (hover: none) {
+  .product-card__wishlist-btn {
+    opacity: 0.7;
+  }
 }
 
 .product-card__wishlist-btn:hover {
@@ -96,6 +106,7 @@
   flex-direction: column;
   gap: 4px;
   border-top: 1px solid #f5f5f5;
+  min-width: 0;
 }
 
 .product-card__brand {
@@ -104,6 +115,9 @@
   text-transform: uppercase;
   letter-spacing: 0.4px;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .product-card__name {
@@ -136,11 +150,15 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
+  flex-shrink: 0;
 }
 
 .product-card__rating-count {
   font-size: 0.72rem;
   color: var(--fm-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Price */
@@ -178,7 +196,41 @@
 
 /* Responsive */
 @media (max-width: 480px) {
-  .product-card__info { padding: 8px 10px 10px; }
-  .product-card__name { font-size: 0.78rem; }
-  .product-card__price { font-size: 0.9rem; }
+  .product-card__img-wrap {
+    padding: 8px;
+  }
+  .product-card__info {
+    padding: 8px 10px 10px;
+  }
+  .product-card__name {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  .product-card__price {
+    font-size: 0.85rem;
+  }
+  .product-card__original-price {
+    font-size: 0.7rem;
+  }
+  .product-card__discount {
+    font-size: 0.65rem;
+  }
+  .product-card__brand {
+    font-size: 0.62rem;
+  }
+  .product-card__rating-badge {
+    font-size: 0.6rem;
+    padding: 1px 4px;
+  }
+  .product-card__rating-count {
+    font-size: 0.62rem;
+  }
+  .product-card__delivery {
+    font-size: 0.62rem;
+  }
+  .product-card__discount-tag {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
 }
