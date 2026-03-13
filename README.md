@@ -2,8 +2,8 @@
 
 A full-stack e-commerce web application that replicates Flipkart's design and user experience. Built with React (TypeScript) on the frontend and Python FastAPI on the backend, backed by a PostgreSQL database hosted on Supabase.
 
-**Live Demo:** _[deployed-link]_
-**Repository:** _[github-link]_
+**Live Demo:** [https://flip-mart-iota.vercel.app](https://flip-mart-iota.vercel.app)
+**Repository:** [https://github.com/saiteja9078/FlipMart](https://github.com/saiteja9078/FlipMart)
 
 ---
 
@@ -50,7 +50,6 @@ A full-stack e-commerce web application that replicates Flipkart's design and us
 - **User Authentication** — Signup and Login via modal, JWT-based session management.
 - **Order History** — View past orders with item details and order status.
 - **Wishlist** — Add/remove products to a personal wishlist, move items to cart.
-- **Email Notification** — Order confirmation emails on placement (SMTP configurable, gracefully mocked if not set).
 - **Filter Sidebar** — Filter products by price range, brand, rating, and discount percentage.
 
 ---
@@ -176,8 +175,7 @@ FlipMart/
 │   │   │   ├── auth_service.py
 │   │   │   ├── product_service.py
 │   │   │   ├── cart_service.py
-│   │   │   ├── order_service.py
-│   │   │   └── email_service.py
+│   │   │   └── order_service.py
 │   │   ├── config.py        # Pydantic Settings (env vars)
 │   │   ├── database.py      # SQLAlchemy engine & session
 │   │   ├── main.py          # FastAPI app, CORS, routers
@@ -265,17 +263,6 @@ ENVIRONMENT=development
 JWT_SECRET=your-secret-key
 ```
 
-Optional SMTP settings for order confirmation emails:
-
-```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
-```
-
-> If SMTP is not configured, email sending is gracefully skipped and logged to the console.
-
 ### 3. Frontend setup
 
 ```bash
@@ -360,10 +347,9 @@ Open `http://localhost:5173` in your browser.
 2. **Payment gateway:** No real payment integration is included. Orders are placed directly and marked as "confirmed."
 3. **Product images:** Product images are sourced from Unsplash for demonstration. In production, these would be served from a CDN or object storage.
 4. **Database hosting:** PostgreSQL is hosted on Supabase (free tier). The connection string is configured via environment variables.
-5. **Email notifications:** SMTP configuration is optional. If not set, order emails are logged to the console instead of being sent.
-6. **Single currency:** All prices are displayed in INR (Indian Rupees) to match Flipkart's native experience.
-7. **Stock management:** Stock is decremented when an order is placed. No stock reservation or hold mechanism is implemented.
-8. **Schema migrations:** Alembic is configured for database migrations. During development, `Base.metadata.create_all()` is also used for convenience.
+5. **Single currency:** All prices are displayed in INR (Indian Rupees) to match Flipkart's native experience.
+6. **Stock management:** Stock is decremented when an order is placed. No stock reservation or hold mechanism is implemented.
+7. **Schema migrations:** Alembic is configured for database migrations. During development, `Base.metadata.create_all()` is also used for convenience.
 
 ## License
 This project was developed as part of a Scalar AI Labs assignment and is intended for evaluation purposes only.

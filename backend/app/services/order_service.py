@@ -6,9 +6,8 @@ from sqlalchemy.orm import Session
 from app.models.cart import CartItem
 from app.models.order import Order, OrderItem
 from app.models.product import Product
-from app.models.user import User
 from app.schemas.order import OrderCreate, OrderResponse
-from app.services.email_service import send_order_confirmation, send_order_cancellation
+
 
 
 def _generate_order_number() -> str:
@@ -23,10 +22,7 @@ class OrderService:
     def place_order(
         db: Session, data: OrderCreate, user_id: int = 1
     ) -> OrderResponse:
-        """
-        Place an order from the user's current cart.
-        Sends a confirmation email after successful order.
-        """
+        """Place an order from the user's current cart."""
         cart_items = (
             db.query(CartItem)
             .filter(CartItem.user_id == user_id)
@@ -93,24 +89,6 @@ class OrderService:
         db.commit()
         db.refresh(order)
 
-        # Send email (non-blocking, fails silently)
-        user = db.query(User).filter(User.id == user_id).first()
-        if user:
-            send_order_confirmation(
-                to_email=user.email,
-                user_name=user.name,
-                order_number=order.order_number,
-                total_amount=float(total_amount),
-                items=[
-                    {
-                        "name": oi["product_name"],
-                        "quantity": oi["quantity"],
-                        "price": float(oi["price_at_purchase"] * oi["quantity"]),
-                    }
-                    for oi in order_items_data
-                ],
-            )
-
         return OrderResponse.model_validate(order)
 
     @staticmethod
@@ -175,14 +153,5 @@ class OrderService:
         order.status = "cancelled"
         db.commit()
         db.refresh(order)
-
-        # Send cancellation email (non-blocking, fails silently)
-        user = db.query(User).filter(User.id == user_id).first()
-        if user:
-            send_order_cancellation(
-                to_email=user.email,
-                user_name=user.name,
-                order_number=order.order_number,
-            )
 
         return OrderResponse.model_validate(order)

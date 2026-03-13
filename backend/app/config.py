@@ -10,12 +10,6 @@ class Settings(BaseSettings):
     
     # JWT
     JWT_SECRET: str = "flipmart-super-secret-jwt-key-change-in-production"
-    
-    # SMTP (optional — email will be mocked if not set)
-    SMTP_HOST: str = ""
-    SMTP_PORT: int = 587
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""
 
     class Config:
         env_file = ".env"
