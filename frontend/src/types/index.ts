@@ -91,6 +91,8 @@ export interface OrderCreate {
   shipping_state: string;
   shipping_pincode: string;
   shipping_phone: string;
+  buy_now_product_id?: number;
+  buy_now_quantity?: number;
 }
 
 export interface OrderItem {

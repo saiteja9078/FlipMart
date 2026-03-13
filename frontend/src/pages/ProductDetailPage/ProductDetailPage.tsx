@@ -47,18 +47,20 @@ export default function ProductDetailPage() {
     }
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = () => {
     if (!product) return;
     if (!requireAuth()) return;
-    setAddingToCart(true);
-    try {
-      await addToCart(product.id);
-      navigate('/checkout');
-    } catch (err: any) {
-      if (err?.response?.status !== 401) console.error(err);
-    } finally {
-      setAddingToCart(false);
-    }
+    navigate('/checkout', {
+      state: {
+        buyNowItem: {
+          product_id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.images?.[0]?.image_url || '',
+          quantity: 1,
+        },
+      },
+    });
   };
 
   // Parse specifications JSON

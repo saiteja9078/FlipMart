@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from decimal import Decimal
+from typing import Optional
 from datetime import datetime
 
 
@@ -12,6 +13,10 @@ class OrderCreate(BaseModel):
     shipping_state: str = Field(min_length=2, max_length=100)
     shipping_pincode: str = Field(min_length=5, max_length=10)
     shipping_phone: str = Field(min_length=10, max_length=15)
+
+    # Optional: for "Buy Now" flow (skip cart)
+    buy_now_product_id: Optional[int] = None
+    buy_now_quantity: int = 1
 
 
 class OrderItemResponse(BaseModel):

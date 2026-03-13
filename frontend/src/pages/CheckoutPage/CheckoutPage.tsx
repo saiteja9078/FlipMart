@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { placeOrder, fetchAddresses, createAddress, deleteAddress } from '../../api/client';
 import type { OrderCreate, Address, AddressCreate } from '../../types';
 import './CheckoutPage.css';
+
+interface BuyNowItem {
+  product_id: number;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
 
 const emptyForm: AddressCreate = {
   name: '',
@@ -18,8 +26,13 @@ const emptyForm: AddressCreate = {
 export default function CheckoutPage() {
   const { cart, refreshCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  // Buy-now item from route state (if any)
+  const buyNowItem: BuyNowItem | null = (location.state as any)?.buyNowItem ?? null;
+  const isBuyNow = buyNowItem !== null;
 
   // Address state
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -108,9 +121,17 @@ export default function CheckoutPage() {
       shipping_phone: selected.phone,
     };
 
+    // If buy-now, attach the product info so backend skips the cart
+    if (isBuyNow && buyNowItem) {
+      orderData.buy_now_product_id = buyNowItem.product_id;
+      orderData.buy_now_quantity = buyNowItem.quantity;
+    }
+
     try {
       const order = await placeOrder(orderData);
-      await refreshCart();
+      if (!isBuyNow) {
+        await refreshCart();
+      }
       navigate(`/order-confirmation/${order.order_number}`);
     } catch (err: any) {
       const detail = err?.response?.data?.detail;
@@ -120,7 +141,8 @@ export default function CheckoutPage() {
     }
   };
 
-  if (cart.items.length === 0) {
+  // Show empty state only for cart flow when cart is empty
+  if (!isBuyNow && cart.items.length === 0) {
     return (
       <div className="checkout container" id="checkout-page">
         <div className="cart-page__empty">
@@ -133,6 +155,29 @@ export default function CheckoutPage() {
       </div>
     );
   }
+
+  // Build the summary items list depending on the flow
+  const summaryItems = isBuyNow && buyNowItem
+    ? [
+        {
+          key: `buynow-${buyNowItem.product_id}`,
+          name: buyNowItem.name,
+          image: buyNowItem.image,
+          quantity: buyNowItem.quantity,
+          lineTotal: buyNowItem.price * buyNowItem.quantity,
+        },
+      ]
+    : cart.items.map((item) => ({
+        key: `cart-${item.id}`,
+        name: item.product.name,
+        image: item.product.image_url || '',
+        quantity: item.quantity,
+        lineTotal: item.product.price * item.quantity,
+      }));
+
+  const summaryTotal = isBuyNow && buyNowItem
+    ? buyNowItem.price * buyNowItem.quantity
+    : Number(cart.total);
 
   return (
     <main className="checkout container" id="checkout-page">
@@ -334,18 +379,18 @@ export default function CheckoutPage() {
           <h2 className="checkout__summary-title">ORDER SUMMARY</h2>
 
           <div className="checkout__summary-items">
-            {cart.items.map((item) => (
-              <div className="checkout__summary-item" key={item.id}>
+            {summaryItems.map((item) => (
+              <div className="checkout__summary-item" key={item.key}>
                 <img
-                  src={item.product.image_url || ''}
-                  alt={item.product.name}
+                  src={item.image}
+                  alt={item.name}
                   className="checkout__summary-img"
                 />
                 <div className="checkout__summary-info">
-                  <p className="checkout__summary-name">{item.product.name}</p>
+                  <p className="checkout__summary-name">{item.name}</p>
                   <p className="checkout__summary-qty">Qty: {item.quantity}</p>
                   <p className="checkout__summary-price">
-                    {formatPrice(item.product.price * item.quantity)}
+                    {formatPrice(item.lineTotal)}
                   </p>
                 </div>
               </div>
@@ -354,7 +399,7 @@ export default function CheckoutPage() {
 
           <div className="checkout__summary-total">
             <span>Total</span>
-            <span>{formatPrice(Number(cart.total))}</span>
+            <span>{formatPrice(summaryTotal)}</span>
           </div>
         </div>
       </div>

@@ -22,47 +22,80 @@ class OrderService:
     def place_order(
         db: Session, data: OrderCreate, user_id: int = 1
     ) -> OrderResponse:
-        """Place an order from the user's current cart."""
-        cart_items = (
-            db.query(CartItem)
-            .filter(CartItem.user_id == user_id)
-            .all()
-        )
+        """Place an order from the user's cart, or directly for a single product (Buy Now)."""
+        is_buy_now = data.buy_now_product_id is not None
 
-        if not cart_items:
-            raise ValueError("Cart is empty")
-
-        # Validate stock and compute total
-        total_amount = Decimal("0.00")
-        order_items_data: list[dict] = []
-
-        for ci in cart_items:
-            product = db.query(Product).filter(Product.id == ci.product_id).first()
+        if is_buy_now:
+            # --- Buy Now flow: order a single product directly ---
+            product = db.query(Product).filter(Product.id == data.buy_now_product_id).first()
             if not product:
-                raise ValueError(f"Product (id={ci.product_id}) no longer exists")
-            if product.stock < ci.quantity:
+                raise ValueError("Product not found")
+            qty = data.buy_now_quantity or 1
+            if product.stock < qty:
                 raise ValueError(
                     f"Insufficient stock for '{product.name}'. "
-                    f"Available: {product.stock}, Requested: {ci.quantity}"
+                    f"Available: {product.stock}, Requested: {qty}"
                 )
 
-            line_total = product.price * ci.quantity
-            total_amount += line_total
-
+            line_total = product.price * qty
+            total_amount = line_total
             first_image = product.images[0].image_url if product.images else None
 
-            order_items_data.append(
+            order_items_data = [
                 {
                     "product_id": product.id,
                     "product_name": product.name,
                     "product_image": first_image,
-                    "quantity": ci.quantity,
+                    "quantity": qty,
                     "price_at_purchase": product.price,
                 }
-            )
+            ]
 
             # Deduct stock
-            product.stock -= ci.quantity
+            product.stock -= qty
+
+        else:
+            # --- Normal cart flow ---
+            cart_items = (
+                db.query(CartItem)
+                .filter(CartItem.user_id == user_id)
+                .all()
+            )
+
+            if not cart_items:
+                raise ValueError("Cart is empty")
+
+            # Validate stock and compute total
+            total_amount = Decimal("0.00")
+            order_items_data: list[dict] = []
+
+            for ci in cart_items:
+                product = db.query(Product).filter(Product.id == ci.product_id).first()
+                if not product:
+                    raise ValueError(f"Product (id={ci.product_id}) no longer exists")
+                if product.stock < ci.quantity:
+                    raise ValueError(
+                        f"Insufficient stock for '{product.name}'. "
+                        f"Available: {product.stock}, Requested: {ci.quantity}"
+                    )
+
+                line_total = product.price * ci.quantity
+                total_amount += line_total
+
+                first_image = product.images[0].image_url if product.images else None
+
+                order_items_data.append(
+                    {
+                        "product_id": product.id,
+                        "product_name": product.name,
+                        "product_image": first_image,
+                        "quantity": ci.quantity,
+                        "price_at_purchase": product.price,
+                    }
+                )
+
+                # Deduct stock
+                product.stock -= ci.quantity
 
         # Create order
         order = Order(
@@ -83,8 +116,9 @@ class OrderService:
         for oi_data in order_items_data:
             db.add(OrderItem(order_id=order.id, **oi_data))
 
-        # Clear cart
-        db.query(CartItem).filter(CartItem.user_id == user_id).delete()
+        # Clear cart only for normal cart flow (not Buy Now)
+        if not is_buy_now:
+            db.query(CartItem).filter(CartItem.user_id == user_id).delete()
 
         db.commit()
         db.refresh(order)
