@@ -3,7 +3,7 @@
 A full-stack e-commerce web application that replicates Flipkart's design and user experience. Built with React (TypeScript) on the frontend and Python FastAPI on the backend, backed by a PostgreSQL database hosted on Supabase.
 
 **Live Demo:** [https://flip-mart-iota.vercel.app](https://flip-mart-iota.vercel.app)
-**Repository:** [https://github.com/saiteja9078/FlipMart](https://github.com/saiteja9078/FlipMart)
+
 
 ---
 
