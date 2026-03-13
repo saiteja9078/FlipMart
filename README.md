@@ -237,7 +237,7 @@ FlipMart/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/FlipMart.git
+git clone https://github.com/saiteja9078/FlipMart.git
 cd FlipMart
 ```
 
