@@ -49,11 +49,11 @@ export default function ProductDetailPage() {
 
   const handleBuyNow = async () => {
     if (!product) return;
+    if (!requireAuth()) return;
     setAddingToCart(true);
     try {
       await addToCart(product.id);
-      // Only navigate if user is authenticated (addToCart won't throw 401 if auth modal opened)
-      navigate('/cart');
+      navigate('/checkout');
     } catch (err: any) {
       if (err?.response?.status !== 401) console.error(err);
     } finally {
